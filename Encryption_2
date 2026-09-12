@@ -1,0 +1,7 @@
+● Signal is taken from the microphone and noise is added to it through the AWGN channel.
+● A random white noise of 0 mean, is generated from another block.
+● The second random noise is adapted to the original signal+noise made.
+● FDAF block is used to perform the adaptive filtering.
+● Output of the block will be adapted to the only co-related part, which is white noise.
+● Output of the FDAF block is hence the adapted noise.
+● Input signal is subtracted from FDAF output and the final output is taken.
