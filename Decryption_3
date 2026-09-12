@@ -1,0 +1,55 @@
+function x_clean = remove_watermark(y)
+
+persistent key amp Fs watermark_freq watermark_phase
+if isempty(key)
+    key = 12345;
+    amp = 0.05;
+    Fs = 44100;
+    watermark_freq = 100;
+    watermark_phase = 2*pi * (key / 100000);
+end
+
+[N, C] = size(y);
+x_clean = zeros(N, C);
+
+% Generate the watermark signal
+t = (0:N-1)' / Fs;
+w = amp * sin(2*pi * watermark_freq * t + watermark_phase);
+
+% Remove watermark from each channel
+for c = 1:C
+    x_clean(:,c) = y(:,c) - w;
+end
+
+end
+
+
+
+
+
+
+function [flag, corr_val] = verify_watermark(y)
+
+persistent key amp Fs watermark_freq watermark_phase
+if isempty(key)
+    key = 12345;
+    amp = 0.05;
+    Fs = 44100;
+    watermark_freq = 100;
+    watermark_phase = 2*pi * (key / 100000);
+end
+
+[N, C] = size(y);
+corr_val = zeros(1, C);
+
+t = (0:N-1)' / Fs;
+w_ref = amp * sin(2*pi * watermark_freq * t + watermark_phase);
+
+for c = 1:C
+    correlation_matrix = corrcoef(y(:,c), w_ref);
+    corr_val(c) = abs(correlation_matrix(1,2));
+end
+
+threshold = 0.1;
+flag = any(corr_val > threshold);
+end
