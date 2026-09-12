@@ -1,0 +1,19 @@
+● Signal is taken from the microphone and noise is added to it through the AWGN channel.
+● A random white noise of 0 mean, is generated from another block.
+● The second random noise is adapted to the original signal+noise made.
+● FDAF block is used to perform the adaptive filtering.
+● Output of the block will be adapted to the only co-related part, which is white noise.
+● Output of the FDAF block is hence the adapted noise.
+● Input signal is subtracted from FDAF output and the final output is taken.
+
+Expectations and Explanations(Noise Masking with Adaptive Noise Shaping) :
+● The output is not very effectively filtering out the noise, but the noise which is even
+coming after the process is not the white noise, which is the original one put in. Hence, it
+can be said that the original AWGN white noise is removed. There are some distortions,
+which could be due to the communication channel and also acts as a shaped noise to
+output. Also the snr display, verifies this claim. Hence, it can be said with reasonable
+confidence that the objectives were fulfilled.
+
+● LMS block was not used since it did not remove white noise from the system, even
+though its output is much clearer than FDAF block output. The purpose of removing
+white noise is fulfilled by the FDAF block.
